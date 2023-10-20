@@ -43,3 +43,22 @@ session = Session()
 
 # read .csv file
 df = pd.read_csv("animes.csv")
+
+
+def populatDB():
+    """Funtion to populate sqlite DB with animes entries from csv file"""
+
+    for row in df.itertuples():
+        session.add(
+            Animes(
+                row.anime_id,
+                row.name,
+                row.genre,
+                row.type,
+                row.episodes,
+                row.rating,
+                row.members,
+            )
+        )
+
+        session.commit()
