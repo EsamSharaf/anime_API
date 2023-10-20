@@ -1,3 +1,4 @@
+import pandas as pd
 from sqlalchemy import Column, Float, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -39,3 +40,6 @@ Base.metadata.create_all(bind=engine)
 Session = sessionmaker(bind=engine)
 
 session = Session()
+
+# read .csv file
+df = pd.read_csv("animes.csv")
