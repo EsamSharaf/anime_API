@@ -11,17 +11,11 @@ class Animes(Base):
     __tablename__ = "animes"
 
     anime_id = Column("anime_id", Integer, primary_key=True)
-
     name = Column("name", String)
-
     genre = Column("genre", String)
-
     type = Column("type", String)
-
     episodes = Column("episodes", Integer)
-
     rating = Column("rating", Float)
-
     members = Column("members", Integer)
 
     def __init__(self, anime_id, name, genre, type, episodes, rating, members):
