@@ -7,6 +7,7 @@ Base = declarative_base()
 
 
 class Animes(Base):
+
     __tablename__ = "animes"
 
     anime_id = Column("anime_id", Integer, primary_key=True)
