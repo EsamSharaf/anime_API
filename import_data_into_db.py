@@ -40,7 +40,7 @@ session = Session()
 df = pd.read_csv("animes.csv")
 
 
-def populatDB():
+def populate_db():
     """Funtion to populate sqlite DB with animes entries from csv file"""
 
     for row in df.itertuples():
