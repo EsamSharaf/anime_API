@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 Base = declarative_base()
 
 
-class Animes(Base):
+class Anime(Base):
 
     __tablename__ = "animes"
 
