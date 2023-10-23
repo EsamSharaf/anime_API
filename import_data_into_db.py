@@ -8,6 +8,23 @@ Base = declarative_base()
 
 
 class Anime(Base):
+    """Model class returns a table object of a name animes
+
+    :param anime_id: Anime ID
+    :type anime_id: int
+    :param name: Anime name
+    :type name: str
+    :param genre: Anime genre
+    :type genre: str
+    :param type: Anime type
+    :type type: str
+    :param episodes: Episode number
+    :type episodes: int
+    :param rating: Episode rating
+    :type rating: float
+    :param members: Anime members
+    :type members: int
+    """
 
     __tablename__ = "animes"
 
@@ -20,6 +37,8 @@ class Anime(Base):
     members = Column("members", Integer)
 
     def __init__(self, anime_id, name, genre, type, episodes, rating, members):
+        """Constructor method
+        """
         self.anime_id = anime_id
         self.name = name
         self.genre = genre
