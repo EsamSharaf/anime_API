@@ -1,4 +1,4 @@
-import pandas as pd
+import csv
 from sqlalchemy import Column, Float, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -36,24 +36,46 @@ Session = sessionmaker(bind=engine)
 
 session = Session()
 
-# read .csv file
-df = pd.read_csv("animes.csv")
 
-
-def populate_db():
+def populate_db(row):
     """Funtion to populate sqlite DB with animes entries from csv file"""
 
-    for row in df.itertuples():
-        session.add(
+    session.add(
             Animes(
-                row.anime_id,
-                row.name,
-                row.genre,
-                row.type,
-                row.episodes,
-                row.rating,
-                row.members,
+                row['anime_id'],
+                row['name'],
+                row['genre'],
+                row['type'],
+                row['episodes'],
+                row['rating'],
+                row['members'],
             )
         )
 
-        session.commit()
+    session.commit()
+
+# Dictionary with values to fill empty fields
+default = {
+    'anime_id': 'unkownn',
+    'name': 'unkown',
+    'genre': 'unkown',
+    'type': 'unkown',
+    'episodes': -1,
+    'rating': -1,
+    'ounces': -1,
+    'members': -1,
+}
+
+with open('animes.csv', newline='') as csvfile:
+
+    # Read csv file
+    anime_table = csv.DictReader(csvfile)
+
+    # Populate the DB row by row
+    for row in anime_table:
+        for col in row:
+            if row[col] == "":
+
+                row[col] = default[col]
+
+        populate_db(row)
