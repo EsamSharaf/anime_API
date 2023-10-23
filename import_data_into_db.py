@@ -58,7 +58,13 @@ session = Session()
 
 
 def populate_db(row):
-    """Funtion to populate sqlite DB with animes entries from csv file"""
+    """Funtion adds a row to sqlite DB
+
+    :param row: A dictionary represents a table row. Keys
+    represetns colomns names. Dictionary values represents values correspond
+    to each coloumn in a table row.
+    :type row: dictionary
+    """
 
     session.add(
             Animes(
