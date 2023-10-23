@@ -67,7 +67,7 @@ def populate_db(row):
     """
 
     session.add(
-            Animes(
+            Anime(
                 row['anime_id'],
                 row['name'],
                 row['genre'],
