@@ -62,7 +62,6 @@ default = {
     'type': 'unkown',
     'episodes': -1,
     'rating': -1,
-    'ounces': -1,
     'members': -1,
 }
 
