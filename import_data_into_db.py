@@ -8,8 +8,7 @@ Session = sessionmaker(bind=engine)
 
 session = Session()
 
-# Dictionary with values to fill empty fields
-default = {
+empty_field_val = {
     'anime_id': 'unkownn',
     'name': 'unkown',
     'genre': 'unkown',
@@ -28,7 +27,7 @@ with open('animes.csv', newline='') as csvfile:
         for col in row:
             if row[col] == "":
 
-                row[col] = default[col]
+                row[col] = empty_field_val[col]
 
         session.add(Anime(**row))
 
