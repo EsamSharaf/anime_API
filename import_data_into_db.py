@@ -8,30 +8,6 @@ Session = sessionmaker(bind=engine)
 
 session = Session()
 
-
-def populate_db(row):
-    """Funtion adds a row to sqlite DB
-
-    :param row: A dictionary represents a table row. Keys
-    represetns colomns names. Dictionary values represents values correspond
-    to each coloumn in a table row.
-    :type row: dictionary
-    """
-
-    session.add(
-            Anime(
-                row['anime_id'],
-                row['name'],
-                row['genre'],
-                row['type'],
-                row['episodes'],
-                row['rating'],
-                row['members'],
-            )
-        )
-
-    session.commit()
-
 # Dictionary with values to fill empty fields
 default = {
     'anime_id': 'unkownn',
