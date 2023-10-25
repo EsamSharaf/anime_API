@@ -24,7 +24,6 @@ with open('animes.csv', newline='') as csvfile:
     # Read csv file
     anime_table = csv.DictReader(csvfile)
 
-    # Populate the DB row by row
     for row in anime_table:
         for col in row:
             if row[col] == "":
