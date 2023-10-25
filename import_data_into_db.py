@@ -55,4 +55,6 @@ with open('animes.csv', newline='') as csvfile:
 
                 row[col] = default[col]
 
-        populate_db(row)
+        session.add(Anime(**row))
+
+        session.commit()
