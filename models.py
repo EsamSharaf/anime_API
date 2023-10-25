@@ -34,7 +34,8 @@ class Anime(Base):
     members = Column("members", Integer)
 
     def __init__(self, anime_id, name, genre, type, episodes, rating, members):
-        """Constructor method
+        """
+        Constructor method
         """
         self.anime_id = anime_id
         self.name = name
