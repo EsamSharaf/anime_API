@@ -1,3 +1,4 @@
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 
@@ -19,3 +20,7 @@ db.init_app(app)
 
 with app.app_context():
     db.Model.metadata.reflect(db.engine)
+
+
+class Anime(db.Model):
+    __table__ = db.Model.metadata.tables['anime']
