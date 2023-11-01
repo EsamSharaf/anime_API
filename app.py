@@ -24,3 +24,11 @@ with app.app_context():
 
 class Anime(db.Model):
     __table__ = db.Model.metadata.tables['anime']
+
+
+@app.route('/list')
+def index():
+    animes = db.session.execute(db.select(Anime).order_by(Anime.rating)
+                                ).scalars()
+
+    return render_template('list.html', animes=animes.all())
