@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 
@@ -27,8 +27,8 @@ class Anime(db.Model):
 
 
 @app.route('/list')
-def index():
+def list():
     animes = db.session.execute(db.select(Anime).order_by(Anime.rating)
                                 ).scalars()
-
-    return render_template('list.html', animes=animes.all())
+    print(animes)
+    return [anime.to_json() for anime in animes]
