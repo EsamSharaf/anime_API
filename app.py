@@ -22,5 +22,3 @@ with app.app_context():
     db.Model.metadata.reflect(db.engine)
 
 
-class Anime(db.Model):
-    __table__ = db.Model.metadata.tables['anime']
