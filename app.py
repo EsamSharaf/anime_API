@@ -19,6 +19,9 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///animeDB"
 db.init_app(app)
 
 with app.app_context():
-    db.Model.metadata.reflect(db.engine)
+    db.reflect()
+    animes_tab = db.Table('animes', db.metadata, autoload_with=db.engine)
 
+from views import animes_bp
 
+app.register_blueprint(animes_bp)
