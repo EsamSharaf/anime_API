@@ -1,7 +1,10 @@
 from flask import Blueprint, jsonify
 from sqlalchemy import desc
 
-from app import animes_tab, db
+try:
+    from app import animes_tab, db
+except ImportError:                     # handle error for testing with pytest
+    from tests.test_views import db, animes_tab
 
 animes_bp = Blueprint('animes', __name__,)
 
