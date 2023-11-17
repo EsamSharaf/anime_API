@@ -2,10 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 
+from views import config_routes
+
 
 class Base(DeclarativeBase):
     pass
-
 
 db = SQLAlchemy(model_class=Base)
 
@@ -20,8 +21,6 @@ db.init_app(app)
 
 with app.app_context():
     db.reflect()
-    animes_tab = db.Table('animes', db.metadata, autoload_with=db.engine)
 
-from views import animes_bp
-
-app.register_blueprint(animes_bp)
+    animes_bp = config_routes(db)
+    app.register_blueprint(animes_bp)
