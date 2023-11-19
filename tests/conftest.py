@@ -8,9 +8,15 @@ from .factories import AnimeFactory
 
 
 @pytest.fixture()
-def app():
+def db():
 
     db = SQLAlchemy(model_class=Base)
+
+    yield db
+
+
+@pytest.fixture()
+def app(db):
 
     # create the app
     app = Flask(__name__)
