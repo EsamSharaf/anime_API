@@ -2,10 +2,13 @@ import factory
 
 from models import Anime
 
+from .conftest import db
 
-class AnimeFactory(factory.Factory):
+
+class AnimeFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Anime
+        sqlalchemy_session = db.session
 
     anime_id = 11
     name = 'anime_default'

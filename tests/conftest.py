@@ -4,19 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 from models import Base
 
-from .factories import AnimeFactory
-
-
-@pytest.fixture()
-def db():
-
-    db = SQLAlchemy(model_class=Base)
-
-    yield db
-
+db = SQLAlchemy(model_class=Base)
 
 @pytest.fixture()
-def app(db):
+def app():
 
     # create the app
     app = Flask(__name__)
@@ -35,8 +26,11 @@ def app(db):
 
         db.create_all()
 
-        db.session.add(AnimeFactory())
-        db.session.add(AnimeFactory(
+        from .factories import AnimeFactory
+
+        AnimeFactory()
+
+        AnimeFactory(
             anime_id=111222,
             name='anime_1',
             genre='Horror',
@@ -44,7 +38,6 @@ def app(db):
             episodes='27',
             rating=8.5,
             members=1256,
-            )
         )
 
         db.session.commit()
