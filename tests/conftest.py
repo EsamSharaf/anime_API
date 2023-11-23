@@ -1,10 +1,9 @@
 import pytest
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
-from models import Base
+from .db_test import db
+from .factories import AnimeFactory
 
-db = SQLAlchemy(model_class=Base)
 
 @pytest.fixture()
 def app():
@@ -25,8 +24,6 @@ def app():
     with app.app_context():
 
         db.create_all()
-
-        from .factories import AnimeFactory
 
         AnimeFactory()
 
