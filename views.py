@@ -10,12 +10,9 @@ def config_routes(db):
     def animes():
 
         animes_tab = db.Table('animes', db.metadata, autoload_with=db.engine)
-
         query = db.session.execute(
             db.select(animes_tab).order_by(desc(animes_tab.c.rating)))
-
         animes_rows = query.mappings().fetchall()
-
         animes_dicts = [dict(zip(row.keys(), row.values())) for row in animes_rows]
 
         return jsonify(animes_dicts)
