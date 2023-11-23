@@ -8,6 +8,7 @@ def config_routes(db):
 
     @animes_bp.route('/api/v1/animes/')
     def animes():
+        """Route returns anime objects in DB listed by rating attribute"""
 
         animes_tab = db.Table('animes', db.metadata, autoload_with=db.engine)
         query = db.session.execute(
