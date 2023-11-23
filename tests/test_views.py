@@ -2,7 +2,6 @@ import json
 
 
 def test_animes_route(client):
-
     response = client.get('/api/v1/animes/')
     assert response.status_code == 200
     assert json.loads(response.get_data()) == [
