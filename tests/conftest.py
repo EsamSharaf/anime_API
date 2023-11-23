@@ -24,9 +24,7 @@ def app():
     with app.app_context():
 
         db.create_all()
-
         AnimeFactory()
-
         AnimeFactory(
             anime_id=111222,
             name='anime_1',
@@ -36,13 +34,11 @@ def app():
             rating=8.5,
             members=1256,
         )
-
         db.session.commit()
 
         from views import config_routes
 
         animes_bp = config_routes(db)
-
         app.register_blueprint(animes_bp)
 
         yield app
