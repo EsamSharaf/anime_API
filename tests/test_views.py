@@ -4,6 +4,18 @@ from .db_test import db
 
 
 def test_animes_route(client):
+    AnimeFactory()
+    AnimeFactory(
+        anime_id=111222,
+        name='anime_1',
+        genre='Horror',
+        type='TV',
+        episodes='27',
+        rating=8.5,
+        members=1256,
+    )
+    db.session.commit()
+
     response = client.get('/api/v1/animes/')
     assert response.status_code == 200
     assert json.loads(response.get_data()) == [
