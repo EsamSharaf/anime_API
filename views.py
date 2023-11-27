@@ -18,4 +18,19 @@ def config_routes(db):
 
         return jsonify(animes_dicts)
 
+    @animes_bp.route('/api/v1/anime/<string:name>')
+    def get_anime_by_name(name: str):
+        """Route retrun single anime details from DB"""
+
+        animes_tab = db.Table('animes', db.metadata, autoload_with=db.engine)
+        query = db.session.execute(db.select(animes_tab).filter_by(name=name))
+        row = query.mappings().first()
+        try:
+            anime_dict = dict(zip(row.keys(), row.values()))
+
+        except AttributeError:
+            return "anime not found"
+        else:
+            return jsonify(anime_dict)
+
     return animes_bp
