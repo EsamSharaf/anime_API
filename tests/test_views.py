@@ -31,7 +31,7 @@ def test_animes_route(client):
     ]
 
 
-def test_anime_by_name_route(client):
+def test_get_anime_by_name_route(client):
     AnimeFactory(
         anime_id=1535,
         name='Death Note',
