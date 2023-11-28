@@ -2,7 +2,6 @@ import pytest
 from flask import Flask
 
 from .db_test import db
-from .factories import AnimeFactory
 
 
 @pytest.fixture()
