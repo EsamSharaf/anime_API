@@ -1,6 +1,7 @@
 import json
-from .factories import AnimeFactory
+
 from .db_test import db
+from .factories import AnimeFactory
 
 
 def test_animes_route(client):
