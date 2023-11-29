@@ -27,7 +27,6 @@ def config_routes(db):
         row = query.first()
         try:
             anime_dict = row._asdict()
-
         except AttributeError:
             return "anime not found"
         else:
