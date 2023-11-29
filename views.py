@@ -24,9 +24,9 @@ def config_routes(db):
 
         animes_tab = db.Table('animes', db.metadata, autoload_with=db.engine)
         query = db.session.execute(db.select(animes_tab).filter_by(name=name))
-        row = query.mappings().first()
+        row = query.first()
         try:
-            anime_dict = dict(zip(row.keys(), row.values()))
+            anime_dict = row._asdict()
 
         except AttributeError:
             return "anime not found"
