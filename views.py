@@ -8,7 +8,12 @@ def config_routes(db):
 
     @animes_bp.route('/api/v1/animes/')
     def animes():
-        """Route returns anime objects in DB listed by rating attribute"""
+        """routes responds with animes table's rows sorted by
+        rating attribute in descending order
+
+        :return: a list of table rows (objects)
+        :rtype: list of JSON-formatted objects
+        """
 
         animes_tab = db.Table('animes', db.metadata, autoload_with=db.engine)
         query = db.session.execute(
@@ -20,7 +25,12 @@ def config_routes(db):
 
     @animes_bp.route('/api/v1/anime/<string:name>')
     def get_anime_by_name(name: str):
-        """Route retrun single anime details from DB"""
+        """route responds with a single row from animes table which matches
+        its name the name argument or "anime not found" string message
+
+        :return: a JSON object
+        :rtype: JSON response object
+        """
 
         animes_tab = db.Table('animes', db.metadata, autoload_with=db.engine)
         query = db.session.execute(db.select(animes_tab).filter_by(name=name))
