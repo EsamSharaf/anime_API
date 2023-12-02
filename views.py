@@ -28,6 +28,8 @@ def config_routes(db):
         """route responds with a single row from animes table which matches
         its name the name argument or "anime not found" string message
 
+        :param name: anime name
+        :type name: str
         :return: a JSON object
         :rtype: JSON response object
         """
