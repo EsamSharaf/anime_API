@@ -8,7 +8,7 @@ def config_routes(db):
 
     @animes_bp.route('/api/v1/animes/')
     def animes():
-        """routes responds with animes table's rows sorted by
+        """route responds with animes table's rows sorted by
         rating attribute in descending order
 
         :return: a list of table rows (objects)
