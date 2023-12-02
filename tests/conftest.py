@@ -1,6 +1,8 @@
 import pytest
 from flask import Flask
 
+from views import config_routes
+
 from .db_test import db
 
 
@@ -23,9 +25,6 @@ def app():
     with app.app_context():
 
         db.create_all()
-
-        from views import config_routes
-
         animes_bp = config_routes(db)
         app.register_blueprint(animes_bp)
 
