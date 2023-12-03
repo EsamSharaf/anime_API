@@ -20,8 +20,8 @@ def config_routes(db):
 
         query = db.session.execute(
             db.select(animes_tab).order_by(desc(animes_tab.c.rating)))
-        animes_rows = query.mappings().fetchall()
-        animes_dicts = [dict(zip(row.keys(), row.values())) for row in animes_rows]
+        animes_rows = query.all()
+        animes_dicts = [row._asdict() for row in animes_rows]
 
         return jsonify(animes_dicts)
 
