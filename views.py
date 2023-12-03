@@ -1,8 +1,11 @@
 from flask import Blueprint, jsonify
 from sqlalchemy import desc
+from models import Anime
 
 
 def config_routes(db):
+
+    animes_tab = Anime.__table__
 
     animes_bp = Blueprint('animes', __name__,)
 
@@ -15,7 +18,6 @@ def config_routes(db):
         :rtype: list of JSON-formatted objects
         """
 
-        animes_tab = db.Table('animes', db.metadata, autoload_with=db.engine)
         query = db.session.execute(
             db.select(animes_tab).order_by(desc(animes_tab.c.rating)))
         animes_rows = query.mappings().fetchall()
@@ -34,7 +36,6 @@ def config_routes(db):
         :rtype: JSON response object
         """
 
-        animes_tab = db.Table('animes', db.metadata, autoload_with=db.engine)
         query = db.session.execute(db.select(animes_tab).filter_by(name=name))
         row = query.first()
         try:
