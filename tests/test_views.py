@@ -4,8 +4,7 @@ from .db_test import db
 from .factories import AnimeFactory
 
 
-def test_animes_route(client):
-    AnimeFactory()
+def test_animes_route(client, create_default_anime):
     AnimeFactory(
         anime_id=111222,
         name='anime_1',
@@ -32,7 +31,7 @@ def test_animes_route(client):
     ]
 
 
-def test_get_anime_by_name_route(client):
+def test_get_anime_by_name_route(client, create_default_anime):
     AnimeFactory(
         anime_id=1535,
         name='Death Note',
