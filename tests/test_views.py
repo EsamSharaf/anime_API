@@ -52,3 +52,8 @@ def test_get_anime_by_name_route(client, create_default_anime):
         "members": 1013917, "name": "Death Note",
         "rating": 8.71, "type": "TV"
     }
+
+
+def test_get_anime_by_name_route_anime_not_found(client, create_default_anime):
+    response = client.get('/api/v1/anime/Kokami')
+    assert response.status_code == 404
