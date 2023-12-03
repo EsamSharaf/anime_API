@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, abort
 from sqlalchemy import desc
 from models import Anime
 
@@ -41,7 +41,7 @@ def config_routes(db):
         try:
             anime_dict = row._asdict()
         except AttributeError:
-            return "anime not found"
+            abort(404)
         else:
             return jsonify(anime_dict)
 
