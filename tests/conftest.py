@@ -4,6 +4,7 @@ from flask import Flask
 from views import config_routes
 
 from .db_test import db
+from .factories import AnimeFactory
 
 
 @pytest.fixture()
@@ -41,3 +42,8 @@ def client(app):
 @pytest.fixture()
 def runner(app):
     return app.test_cli_runner()
+
+
+@pytest.fixture()
+def create_default_anime(app):
+    return AnimeFactory()
