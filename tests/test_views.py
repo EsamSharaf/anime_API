@@ -48,8 +48,8 @@ def test_get_anime_by_name_route(client):
     assert response.status_code == 200
     assert json.loads(response.get_data()) == {
 
-            "anime_id": 1535, "episodes": 37,
-            "genre": "Mystery, Police, Psychological, Supernatural, Thriller",
-            "members": 1013917, "name": "Death Note",
-            "rating": 8.71, "type": "TV"
+        "anime_id": 1535, "episodes": 37,
+        "genre": "Mystery, Police, Psychological, Supernatural, Thriller",
+        "members": 1013917, "name": "Death Note",
+        "rating": 8.71, "type": "TV"
     }
