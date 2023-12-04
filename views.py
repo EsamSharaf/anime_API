@@ -32,6 +32,7 @@ def config_routes(db):
 
         :param name: anime name
         :type name: str
+        :raises AttributeError: handles when row is None
         :return: a JSON object
         :rtype: JSON response object
         """
