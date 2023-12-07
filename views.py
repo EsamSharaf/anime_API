@@ -39,11 +39,10 @@ def config_routes(db):
 
         query = db.session.execute(db.select(animes_tab).filter_by(name=name))
         row = query.first()
-        try:
+        if row is not None:
             anime_dict = row._asdict()
-        except AttributeError:
-            abort(404)
-        else:
             return jsonify(anime_dict)
+        else:
+            abort(404)
 
     return animes_bp
