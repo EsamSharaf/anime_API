@@ -2,7 +2,7 @@ import factory
 
 from models import Anime
 
-from .conftest import db
+from conduit.database import db
 
 
 class AnimeFactory(factory.alchemy.SQLAlchemyModelFactory):
