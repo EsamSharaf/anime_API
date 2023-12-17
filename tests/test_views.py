@@ -1,6 +1,5 @@
 import json
-
-from .db_test import db
+from conduit.database import db
 from .factories import AnimeFactory
 
 
