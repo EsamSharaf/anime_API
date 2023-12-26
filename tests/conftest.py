@@ -1,6 +1,6 @@
 import pytest
 from conduit.app import create_app
-from conduit.database import db as _db
+from conduit.app import db
 from conduit.settings import TestConfig
 from .factories import AnimeFactory
 
@@ -9,30 +9,16 @@ from .factories import AnimeFactory
 def app():
 
     # create the app
-    _app = create_app(TestConfig)
+    app = create_app(TestConfig)
 
-    with _app.app_context():
+    with app.app_context():
 
-        _db.create_all()
+        db.create_all()
 
         yield app
 
-        _db.drop_all()
-
-
-@pytest.fixture()
-def db(app):
-    """A database for the tests."""
-    _db.app = app
-
-    with app.app_context():
-        _db.create_all()
-
-    yield _db
-
-    # Explicitly close DB connection
-    _db.session.close()
-    _db.drop_all()
+        db.drop_all()
+        db.session.close()
 
 
 @pytest.fixture()
@@ -46,5 +32,5 @@ def runner(app):
 
 
 @pytest.fixture()
-def create_default_anime(db):
+def create_default_anime(app):
     return AnimeFactory()
