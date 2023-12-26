@@ -1,5 +1,7 @@
 import json
+
 from conduit.app import db
+
 from .factories import AnimeFactory
 
 
