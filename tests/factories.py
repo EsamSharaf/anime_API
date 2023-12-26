@@ -1,8 +1,8 @@
 import factory
 
-from models import Anime
+from conduit.models import Anime
 
-from conduit.database import db
+from .conftest import db
 
 
 class AnimeFactory(factory.alchemy.SQLAlchemyModelFactory):
