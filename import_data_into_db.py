@@ -2,7 +2,7 @@ import csv
 
 from sqlalchemy.orm import sessionmaker
 
-from models import Anime, engine
+from conduit.models import Anime, engine
 
 Session = sessionmaker(bind=engine)
 
