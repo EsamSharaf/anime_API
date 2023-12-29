@@ -1,7 +1,7 @@
 import pytest
-from conduit.app import create_app
-from conduit.app import db
-from conduit.settings import TestConfig
+from anime.app import create_app
+from anime.app import db
+from anime.settings import TestConfig
 from .factories import AnimeFactory
 
 

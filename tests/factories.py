@@ -1,6 +1,6 @@
 import factory
 
-from conduit.models import Anime
+from anime.models import Anime
 
 from .conftest import db
 

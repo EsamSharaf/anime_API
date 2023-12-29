@@ -1,6 +1,6 @@
 import json
 
-from conduit.app import db
+from anime.app import db
 
 from .factories import AnimeFactory
 

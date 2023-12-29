@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
 
-from conduit.models import Base
+from anime.models import Base
 
 db = SQLAlchemy(model_class=Base)

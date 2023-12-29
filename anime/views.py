@@ -1,8 +1,8 @@
 from flask import Blueprint, abort, jsonify
 from sqlalchemy import desc
 
-from conduit.app import db
-from conduit.models import Anime
+from anime.app import db
+from anime.models import Anime
 
 animes_tab = Anime.__table__
 

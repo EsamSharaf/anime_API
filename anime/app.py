@@ -1,8 +1,8 @@
 from flask import Flask
 
-from conduit.extensions import db
-from conduit.settings import DevConfig
-from conduit.views import animes_bp
+from anime.extensions import db
+from anime.settings import DevConfig
+from anime.views import animes_bp
 
 
 def create_app(config_object=DevConfig):
