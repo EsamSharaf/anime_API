@@ -1,8 +1,9 @@
-from flask import Blueprint, abort, jsonify
+from flask import Blueprint, abort
 from sqlalchemy import desc
 
 from anime.app import db
 from anime.models import Anime
+from anime.schemas import AnimeSchema
 
 animes_tab = Anime.__table__
 
@@ -20,9 +21,9 @@ def animes():
     query = db.session.execute(
         db.select(animes_tab).order_by(desc(animes_tab.c.rating)))
     animes_rows = query.all()
-    animes_dicts = [row._asdict() for row in animes_rows]
+    animes_schema = AnimeSchema(many=True)
 
-    return jsonify(animes_dicts)
+    return animes_schema.dump(animes_rows)
 
 @animes_bp.route('/api/v1/anime/<string:name>', methods=['GET'])
 def get_anime_by_name(name: str):
@@ -39,7 +40,7 @@ def get_anime_by_name(name: str):
     query = db.session.execute(db.select(animes_tab).filter_by(name=name))
     row = query.first()
     if row is not None:
-        anime_dict = row._asdict()
-        return jsonify(anime_dict)
+        anime_schema = AnimeSchema()
+        return anime_schema.dump(row)
     else:
         abort(404)
