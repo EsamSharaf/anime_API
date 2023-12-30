@@ -8,6 +8,6 @@ AnimeSchema = Schema.from_dict(
         "type": fields.Str(),
         "episodes": fields.Str(),
         "rating": fields.Float(),
-        "members": fields.Integer(),
+        "members": fields.Int(),
     }
 )
