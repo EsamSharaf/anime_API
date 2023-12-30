@@ -2,7 +2,7 @@ from marshmallow import Schema, fields
 
 AnimeSchema = Schema.from_dict(
     {
-        "anime_id": fields.Str(),
+        "anime_id": fields.Int(),
         "name": fields.Str(),
         "genre": fields.Str(),
         "type": fields.Str(),
