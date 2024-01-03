@@ -1,6 +1,5 @@
 from anime.app import db
 from anime.schemas import AnimeSchema
-
 from .factories import AnimeFactory
 
 
