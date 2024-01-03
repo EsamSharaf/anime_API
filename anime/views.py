@@ -11,7 +11,7 @@ animes_bp = Blueprint('animes', __name__,)
 
 @animes_bp.route('/api/v1/animes/', methods=['GET'])
 def animes():
-    """route responds with animes table's rows sorted by
+    """Route returns with animes table's rows sorted by
     rating attribute in descending order
 
     :return: a list of table rows (objects)
@@ -27,7 +27,7 @@ def animes():
 
 @animes_bp.route('/api/v1/anime/<string:name>', methods=['GET'])
 def get_anime_by_name(name: str):
-    """route responds with a single row from animes table which matches
+    """Route returns with a single row from animes table which matches
     its name the name argument or "anime not found" string message
 
     :param name: anime name
