@@ -46,6 +46,6 @@ class Anime(Base):
         self.members = members
 
 
-engine = create_engine("sqlite:///animeDB")
+engine = create_engine("sqlite:///./instance/animeDB")
 
 Base.metadata.create_all(bind=engine)
