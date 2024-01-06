@@ -1,9 +1,7 @@
 import pytest
-from flask import Flask
-
-from views import config_routes
-
-from .db_test import db
+from anime.app import create_app
+from anime.app import db
+from anime.settings import TestConfig
 from .factories import AnimeFactory
 
 
@@ -11,27 +9,16 @@ from .factories import AnimeFactory
 def app():
 
     # create the app
-    app = Flask(__name__)
-
-    app.config.update({
-        "TESTING": True,
-    })
-
-    # configure the SQLite database for testing
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///animeDB_test.db"
-
-    # initialize the app with the extension
-    db.init_app(app)
+    app = create_app(TestConfig)
 
     with app.app_context():
 
         db.create_all()
-        animes_bp = config_routes(db)
-        app.register_blueprint(animes_bp)
 
         yield app
 
         db.drop_all()
+        db.session.close()
 
 
 @pytest.fixture()

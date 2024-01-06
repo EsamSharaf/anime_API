@@ -2,7 +2,7 @@ import csv
 
 from sqlalchemy.orm import sessionmaker
 
-from models import Anime, engine
+from anime.models import Anime, engine
 
 Session = sessionmaker(bind=engine)
 
@@ -14,6 +14,11 @@ with open('animes.csv', newline='') as csvfile:
     anime_table = csv.DictReader(csvfile)
 
     for row in anime_table:
+
+        if row['episodes'] == 'Unknown':
+            row['episodes'] = None
+        else:
+            pass
 
         try:
             row['rating'] = float(row['rating'])
