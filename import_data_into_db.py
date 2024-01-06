@@ -15,6 +15,11 @@ with open('animes.csv', newline='') as csvfile:
 
     for row in anime_table:
 
+        if row['episodes'] == 'Unknown':
+            row['episodes'] = None
+        else:
+            pass
+
         try:
             row['rating'] = float(row['rating'])
         except ValueError:
