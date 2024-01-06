@@ -14,6 +14,6 @@ class AnimeFactory(factory.alchemy.SQLAlchemyModelFactory):
     name = 'anime_default'
     genre = 'Action'
     type = 'TV'
-    episodes = '27'
+    episodes = 27
     rating = 8.0
     members = 123456
