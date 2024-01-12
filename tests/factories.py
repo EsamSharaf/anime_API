@@ -1,6 +1,6 @@
 import factory
 
-from models import Anime
+from anime.models import Anime
 
 from .conftest import db
 
@@ -14,6 +14,6 @@ class AnimeFactory(factory.alchemy.SQLAlchemyModelFactory):
     name = 'anime_default'
     genre = 'Action'
     type = 'TV'
-    episodes = '27'
+    episodes = 27
     rating = 8.0
     members = 123456
