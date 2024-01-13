@@ -1,6 +1,6 @@
-from flask import Blueprint, abort
+from flask import Blueprint, abort, request
 from sqlalchemy import desc
-
+from flask import jsonify
 from anime.app import db
 from anime.models import Anime
 from anime.schemas import AnimeSchema
@@ -44,3 +44,29 @@ def get_anime_by_name(name: str):
         return anime_schema.dump(row)
     else:
         abort(404)
+
+
+@animes_bp.route('/api/v1/anime-update/<string:name>', methods=['POST'])
+def update_anime_field(name: str):
+    """Route updates attribute(s) of single anime in DB
+
+    :param name: Anime name to update its attribute(s)
+    :type name: str
+    :return: Query paremeters
+    :rtype: JSON
+    """
+
+    try:
+        request_data = request.get_json()
+
+        for key, val in request_data.items():
+            db.session.query(Anime).filter(Anime.name == name).update(
+                {key: val}
+            )
+            db.session.commit()
+
+        return jsonify(request_data)
+
+    except Exception as e:
+
+        return jsonify({"error": "{0}".format(e)})
