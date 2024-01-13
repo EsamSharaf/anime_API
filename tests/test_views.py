@@ -1,7 +1,7 @@
 from anime.app import db
 from anime.schemas import AnimeSchema
 from .factories import AnimeFactory
-import json
+
 
 def test_animes_route(client, create_default_anime):
     AnimeFactory(
