@@ -1,7 +1,7 @@
 from anime.app import db
 from anime.schemas import AnimeSchema
 from .factories import AnimeFactory
-
+import json
 
 def test_animes_route(client, create_default_anime):
     AnimeFactory(
@@ -62,3 +62,13 @@ def test_get_anime_by_name_route_anime_not_found(client, create_default_anime):
     response = client.get('/api/v1/anime/Kokami')
 
     assert response.status_code == 404
+
+
+def test_update_anime_field_route(client, create_default_anime):
+    response = client.post('/api/v1/anime-update/anime_default', json={
+        "query": """
+            "episodes: 30"
+        """
+    })
+
+    assert response.status_code == 200
