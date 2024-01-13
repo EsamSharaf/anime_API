@@ -1,6 +1,6 @@
-from flask import Blueprint, abort, request
+from flask import Blueprint, abort, jsonify, request
 from sqlalchemy import desc
-from flask import jsonify
+
 from anime.app import db
 from anime.models import Anime
 from anime.schemas import AnimeSchema
