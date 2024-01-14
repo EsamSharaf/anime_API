@@ -46,8 +46,8 @@ def get_anime_by_name(name: str):
         abort(404)
 
 
-@animes_bp.route('/api/v1/anime-update/<string:name>', methods=['POST'])
-def update_anime_field(name: str):
+@animes_bp.route('/api/v1/animes/<int:id>', methods=['PUT'])
+def anime(id: int):
     """Route updates attribute(s) of single anime in DB
 
     :param name: Anime name to update its attribute(s)
@@ -60,13 +60,13 @@ def update_anime_field(name: str):
         request_data = request.get_json()
 
         for key, val in request_data.items():
-            db.session.query(Anime).filter(Anime.name == name).update(
+            db.session.query(Anime).filter(Anime.anime_id == id).update(
                 {key: val}
             )
             db.session.commit()
 
         anime = db.session.execute(
-                    db.select(animes_tab).filter_by(name=name)).first()
+                    db.select(animes_tab).filter_by(anime_id=id)).first()
         anime_schema = AnimeSchema()
 
         return anime_schema.dump(anime)
