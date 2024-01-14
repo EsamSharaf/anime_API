@@ -65,8 +65,11 @@ def update_anime_field(name: str):
             )
             db.session.commit()
 
-        return jsonify(request_data)
+        anime = db.session.execute(
+                    db.select(animes_tab).filter_by(name=name)).first()
+        anime_schema = AnimeSchema()
+
+        return anime_schema.dump(anime)
 
     except Exception as e:
-
         return jsonify({"error": "{0}".format(e)})
