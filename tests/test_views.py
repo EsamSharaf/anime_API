@@ -64,11 +64,20 @@ def test_get_anime_by_name_route_anime_not_found(client, create_default_anime):
     assert response.status_code == 404
 
 
-def test_update_anime_field_route(client, create_default_anime):
-    response = client.post('/api/v1/anime-update/anime_default', json={
-        "query": """
-            "episodes: 30"
-        """
+def test_anime_put_requst(client, create_default_anime):
+
+    response = client.put('/api/v1/animes/11', json={
+        "episodes": 30,
     })
 
+    obj = response.json()
     assert response.status_code == 200
+    assert obj == {
+        "anime_id": 11,
+        "name": "anime_default",
+        "genre": "Action",
+        "type": "TV",
+        "episodes": 30,
+        "rating": 8.0,
+        "members": 123456
+    }
