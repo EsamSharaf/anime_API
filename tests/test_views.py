@@ -64,7 +64,7 @@ def test_get_anime_by_name_route_anime_not_found(client, create_default_anime):
     assert response.status_code == 404
 
 
-def test_anime_put_requst(client, create_default_anime):
+def test_anime_put_request(client, create_default_anime):
 
     response = client.put('/api/v1/animes/11', json={
         "episodes": 30,
