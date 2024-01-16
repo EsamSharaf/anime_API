@@ -63,6 +63,7 @@ def test_get_anime_by_name_route_anime_not_found(client, create_default_anime):
 
     assert response.status_code == 404
 
+
 def test_anime_patch(client, create_default_anime):
 
     anime_schema = AnimeSchema()
@@ -82,7 +83,8 @@ def test_anime_patch(client, create_default_anime):
         "rating": 7.5,
         "members": 123456
     }
- 
+
+
 def test_anime_delete(client, create_default_anime):
     response = client.delete('/api/v1/animes/11')
 
