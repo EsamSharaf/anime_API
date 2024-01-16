@@ -66,18 +66,20 @@ def test_get_anime_by_name_route_anime_not_found(client, create_default_anime):
 
 def test_anime_put_request(client, create_default_anime):
 
+    anime_schema = AnimeSchema()
+
     response = client.put('/api/v1/animes/11', json={
         "episodes": 30,
+        "rating": 7.5,
     })
 
-    obj = response.json()
     assert response.status_code == 200
-    assert obj == {
+    assert anime_schema.loads(response.data) == {
         "anime_id": 11,
         "name": "anime_default",
         "genre": "Action",
         "type": "TV",
         "episodes": 30,
-        "rating": 8.0,
+        "rating": 7.5,
         "members": 123456
     }
