@@ -64,11 +64,11 @@ def test_get_anime_by_name_route_anime_not_found(client, create_default_anime):
     assert response.status_code == 404
 
 
-def test_anime_put(client, create_default_anime):
+def test_anime_patch(client, create_default_anime):
 
     anime_schema = AnimeSchema()
 
-    response = client.put('/api/v1/animes/11', json={
+    response = client.patch('/api/v1/animes/11', json={
         "episodes": 30,
         "rating": 7.5,
     })

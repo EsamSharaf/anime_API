@@ -46,7 +46,7 @@ def get_anime_by_name(name: str):
         abort(404)
 
 
-@animes_bp.route('/api/v1/animes/<int:id>', methods=['PUT'])
+@animes_bp.route('/api/v1/animes/<int:id>', methods=['Patch'])
 def anime(id: int):
     """Route updates attribute(s) of single anime in DB
 
@@ -58,12 +58,10 @@ def anime(id: int):
 
     try:
         request_data = request.get_json()
-
-        for key, val in request_data.items():
-            db.session.query(Anime).filter(Anime.anime_id == id).update(
-                {key: val}
-            )
-            db.session.commit()
+        db.session.query(Anime).filter(Anime.anime_id == id).update(
+            {**request_data}
+        )
+        db.session.commit()
 
         anime = db.session.execute(
                     db.select(animes_tab).filter_by(anime_id=id)).first()
