@@ -52,8 +52,8 @@ def anime(id: int):
 
     :param name: Anime name to update its attribute(s)
     :type name: str
-    :return: Query paremeters
-    :rtype: JSON
+    :return: Updated anime record
+    :rtype: AnimeSchema
     """
 
     try:
