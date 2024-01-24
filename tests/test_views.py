@@ -62,3 +62,9 @@ def test_get_anime_by_name_route_anime_not_found(client, create_default_anime):
     response = client.get('/api/v1/anime/Kokami')
 
     assert response.status_code == 404
+
+
+def test_animes_delete(client, create_default_anime):
+    response = client.delete('/api/v1/animes/11')
+
+    assert response.status_code == 204
