@@ -1,4 +1,4 @@
-from flask import Blueprint, abort
+from flask import Blueprint, abort, jsonify, request
 from sqlalchemy import desc
 
 from anime.app import db
@@ -44,3 +44,19 @@ def get_anime_by_name(name: str):
         return anime_schema.dump(row)
     else:
         abort(404)
+
+
+@animes_bp.route('/api/v1/animes/<int:id>', methods=['Patch', 'DELETE'])
+def anime(id: int):
+    """Route updates attribute(s) of single anime in DB
+
+    :param name: Anime name to update its attribute(s)
+    :type name: str
+    :return: Updated anime record
+    :rtype: AnimeSchema
+    """
+
+    if request.method == 'DELETE':
+        db.session.query(Anime).filter(Anime.anime_id == id).delete()
+        db.session.commit()
+        return '', 204
