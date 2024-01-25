@@ -68,3 +68,9 @@ def test_animes_delete(client, create_default_anime):
     response = client.delete('/api/v1/animes/11')
 
     assert response.status_code == 204
+
+
+def test_animes_delete_not_found(client, create_default_anime):
+    response = client.delete('/api/v1/animes/10')
+
+    assert response.status_code == 404
