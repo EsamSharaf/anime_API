@@ -57,6 +57,10 @@ def anime(id: int):
     """
 
     if request.method == 'DELETE':
-        db.session.query(Anime).filter(Anime.anime_id == id).delete()
+        num = db.session.query(Anime).filter(Anime.anime_id == id).delete()
         db.session.commit()
-        return '', 204
+
+        if num == 1:
+            return '', 204
+        elif num == 0:
+            return f'anime id ={id} not found', 404
