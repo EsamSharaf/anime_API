@@ -46,21 +46,19 @@ def get_anime_by_name(name: str):
         abort(404)
 
 
-@animes_bp.route('/api/v1/animes/<int:id>', methods=['Patch', 'DELETE'])
-def anime(id: int):
-    """Route updates attribute(s) of single anime in DB
+@animes_bp.route('/api/v1/animes/<int:id>', methods=['DELETE'])
+def anime_delete(id: int):
+    """Route deletes a single anime in DB if exits or aborts
+    if it does not exits
 
-    :param name: Anime name to update its attribute(s)
-    :type name: str
-    :return: Updated anime record
-    :rtype: AnimeSchema
+    :param id: Anime id
+    :type id: int
+    :return: empty string with HTTP status 204 (No Content)
+    :rtype: 204 response
     """
 
-    if request.method == 'DELETE':
-        num = db.session.query(Anime).filter(Anime.anime_id == id).delete()
-        db.session.commit()
+    anime = db.get_or_404(Anime, id)
+    db.session.delete(anime)
+    db.session.commit()
 
-        if num == 1:
-            return '', 204
-        elif num == 0:
-            return f'anime id ={id} not found', 404
+    return '', 204
