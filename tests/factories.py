@@ -9,6 +9,7 @@ class AnimeFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Anime
         sqlalchemy_session = db.session
+        sqlalchemy_session_persistence = 'commit'
 
     anime_id = 11
     name = 'anime_default'
