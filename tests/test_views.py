@@ -71,17 +71,6 @@ def test_anime_delete(client, create_default_anime):
 
 
 def test_anime_delete_not_found(client, create_default_anime):
-    AnimeFactory(
-        anime_id=111222,
-        name='anime_1',
-        genre='Horror',
-        type='TV',
-        episodes='27',
-        rating=8.5,
-        members=1256,
-    )
-    db.session.commit()
-
     response = client.delete('/api/v1/animes/10')
 
     assert response.status_code == 404
