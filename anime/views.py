@@ -45,7 +45,6 @@ def get_anime_by_name(name: str):
     else:
         abort(404)
 
-
 @animes_bp.route('/api/v1/animes/<int:id>', methods=['Patch'])
 def anime(id: int):
     """Route updates attribute(s) of single anime in DB
@@ -71,3 +70,20 @@ def anime(id: int):
 
     except Exception as e:
         return jsonify({"error": "{0}".format(e)})
+
+@animes_bp.route('/api/v1/animes/<int:id>', methods=['DELETE'])
+def anime_delete(id: int):
+    """Route deletes a single anime in DB if exits or aborts
+    if it does not exits
+
+    :param id: Anime id
+    :type id: int
+    :return: empty string with HTTP status 204 (No Content)
+    :rtype: 204 response
+    """
+
+    anime = db.get_or_404(Anime, id)
+    db.session.delete(anime)
+    db.session.commit()
+
+    return '', 204
