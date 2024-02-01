@@ -63,7 +63,26 @@ def test_get_anime_by_name_route_anime_not_found(client, create_default_anime):
 
     assert response.status_code == 404
 
+def test_anime_patch(client, create_default_anime):
 
+    anime_schema = AnimeSchema()
+
+    response = client.patch('/api/v1/animes/11', json={
+        "episodes": 30,
+        "rating": 7.5,
+    })
+
+    assert response.status_code == 200
+    assert anime_schema.loads(response.data) == {
+        "anime_id": 11,
+        "name": "anime_default",
+        "genre": "Action",
+        "type": "TV",
+        "episodes": 30,
+        "rating": 7.5,
+        "members": 123456
+    }
+ 
 def test_anime_delete(client, create_default_anime):
     response = client.delete('/api/v1/animes/11')
 

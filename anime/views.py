@@ -45,6 +45,31 @@ def get_anime_by_name(name: str):
     else:
         abort(404)
 
+@animes_bp.route('/api/v1/animes/<int:id>', methods=['Patch'])
+def anime(id: int):
+    """Route updates attribute(s) of single anime in DB
+
+    :param name: Anime name to update its attribute(s)
+    :type name: str
+    :return: Updated anime record
+    :rtype: AnimeSchema
+    """
+
+    try:
+        request_data = request.get_json()
+        db.session.query(Anime).filter(Anime.anime_id == id).update(
+            {**request_data}
+        )
+        db.session.commit()
+
+        anime = db.session.execute(
+                    db.select(animes_tab).filter_by(anime_id=id)).first()
+        anime_schema = AnimeSchema()
+
+        return anime_schema.dump(anime)
+
+    except Exception as e:
+        return jsonify({"error": "{0}".format(e)})
 
 @animes_bp.route('/api/v1/animes/<int:id>', methods=['DELETE'])
 def anime_delete(id: int):
