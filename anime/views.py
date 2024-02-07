@@ -45,7 +45,7 @@ def get_anime_by_name(name: str):
     else:
         abort(404)
 
-@animes_bp.route('/api/v1/animes/<int:id>', methods=['Patch'])
+@animes_bp.route('/api/v1/animes/<int:id>', methods=['Put', 'Patch'])
 def anime(id: int):
     """Route updates attribute(s) of single anime in DB
 
