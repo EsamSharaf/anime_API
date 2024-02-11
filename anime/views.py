@@ -1,7 +1,7 @@
 from flask import Blueprint, abort, jsonify, request
+from marshmallow.exceptions import ValidationError
 from sqlalchemy import desc
 from sqlalchemy.exc import IntegrityError
-from marshmallow.exceptions import ValidationError
 
 from anime.app import db
 from anime.models import Anime
