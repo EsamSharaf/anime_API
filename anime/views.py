@@ -114,4 +114,4 @@ def create_anime():
             "detail": "Ensure that anime ID is unique"
             }, 400
 
-    return anime_schema.dump(schema_dict), 200
+    return anime_schema.dump(schema_dict), 201
