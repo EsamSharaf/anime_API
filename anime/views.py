@@ -1,5 +1,7 @@
 from flask import Blueprint, abort, jsonify, request
 from sqlalchemy import desc
+from sqlalchemy.exc import IntegrityError
+from marshmallow.exceptions import ValidationError
 
 from anime.app import db
 from anime.models import Anime
@@ -87,3 +89,29 @@ def anime_delete(id: int):
     db.session.commit()
 
     return '', 204
+
+@animes_bp.route('/api/v1/animes/', methods=['POST'])
+def create_anime():
+    """Route for inserting new anime resource to DB
+
+    :return: returns successful anime input
+    :rtype: AnimeSchema
+    """
+    anime_schema = AnimeSchema()
+    try:
+        schema_dict = anime_schema.loads(request.data)
+    except ValidationError as e:
+        return {"error": e.messages}, 400
+
+    try:
+        db.session.add(Anime(**schema_dict))
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        return {
+            "error": "sqlite3.IntegrityError: UNIQUE constraint failed: animes.anime_id",
+            "message": "Anime ID exists already in the database",
+            "detail": "Ensure that anime ID is unique"
+            }, 400
+
+    return anime_schema.dump(schema_dict), 200
