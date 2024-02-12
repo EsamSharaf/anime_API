@@ -92,7 +92,7 @@ def anime_delete(id: int):
 
 @animes_bp.route('/api/v1/animes/', methods=['POST'])
 def create_anime():
-    """Route for inserting new anime resource to DB
+    """Route for inserting a new anime resource to DB
 
     :return: returns successful anime input
     :rtype: AnimeSchema
