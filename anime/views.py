@@ -97,6 +97,7 @@ def create_anime():
     :return: returns successful anime input
     :rtype: AnimeSchema
     """
+
     anime_schema = AnimeSchema()
     try:
         schema_dict = anime_schema.loads(request.data)
