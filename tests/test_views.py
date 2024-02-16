@@ -110,7 +110,7 @@ def test_create_anime(client, create_default_anime):
 
     anime_schema = AnimeSchema()
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert anime_schema.loads(response.data) == {
         "anime_id": 1535,
         "name": 'Death Note',
