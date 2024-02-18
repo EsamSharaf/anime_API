@@ -4,6 +4,8 @@ from anime.extensions import db
 from anime.settings import DevConfig
 from anime.views import animes_bp
 
+from .error_handlers import RecordIdExist, handle_record_exist
+
 
 def create_app(config_object=DevConfig):
     """Application factory
@@ -17,7 +19,7 @@ def create_app(config_object=DevConfig):
     app.config.from_object(config_object)
     register_extensions(app)
     register_blueprints(app)
-
+    app.register_error_handler(RecordIdExist, handle_record_exist)
     return app
 
 def register_extensions(app):

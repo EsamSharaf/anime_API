@@ -1,11 +1,13 @@
+import sqlalchemy
 from flask import Blueprint, abort, jsonify, request
 from marshmallow.exceptions import ValidationError
 from sqlalchemy import desc
-from sqlalchemy.exc import IntegrityError
 
 from anime.app import db
 from anime.models import Anime
 from anime.schemas import AnimeSchema
+
+from .error_handlers import RecordIdExist
 
 animes_tab = Anime.__table__
 
@@ -107,12 +109,7 @@ def create_anime():
     try:
         db.session.add(Anime(**schema_dict))
         db.session.commit()
-    except IntegrityError:
-        db.session.rollback()
-        return {
-            "error": "sqlite3.IntegrityError: UNIQUE constraint failed: animes.anime_id",
-            "message": "Anime ID exists already in the database",
-            "detail": "Ensure that anime ID is unique"
-            }, 400
+    except sqlalchemy.exc.IntegrityError:
+        raise RecordIdExist()
 
     return anime_schema.dump(schema_dict), 201
