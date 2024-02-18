@@ -51,7 +51,7 @@ def update_anime(id: int):
     """Route updates attribute(s) of single anime in DB
 
     :param id: Anime ID
-    :type ide: str
+    :type id: str
     :return: Updated anime record
     :rtype: AnimeSchema
     """
@@ -62,24 +62,29 @@ def update_anime(id: int):
         anime_schema = AnimeSchema(partial=True)
 
     try:
-        schema_dict = anime_schema.loads(request.data)
+        entry_dict = anime_schema.loads(request.data)
     except ValidationError as e:
         return {"error": e.messages}, 400
 
-    _x = db.session.query(Anime).filter(Anime.anime_id == id).update(
-        {**schema_dict}
-    )
+    # Function to convert ORM obj to dictionary
+    row2dict = lambda r: {
+        c.name: str(getattr(r, c.name)) for c in r.__table__.columns}
 
-    if _x:
-        db.session.commit()
+    db_anime = db.session.query(Anime).filter(Anime.anime_id == id)
+    if db_anime.first() is not None:
+        db_anime_dict = row2dict(db_anime.first())
     else:
-        return {
-            "error": "Anime ID does not exist in DB",
-            "message": "Anime not found",
-            "detail": "provide Anime ID that exists in DB"
-        }, 400
+        abort(404)  # if anime id not exist
 
-    return anime_schema.dump(schema_dict)
+    for value in entry_dict:
+        if entry_dict[value] is not None:
+            db_anime_dict[value] = entry_dict[value]
+
+    db_anime.update(db_anime_dict)
+    db.session.commit()
+
+    return anime_schema.dump(db_anime_dict)
+
 
 @animes_bp.route('/api/v1/animes/<int:id>', methods=['DELETE'])
 def anime_delete(id: int):
