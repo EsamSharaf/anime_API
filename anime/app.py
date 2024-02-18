@@ -19,7 +19,8 @@ def create_app(config_object=DevConfig):
     app.config.from_object(config_object)
     register_extensions(app)
     register_blueprints(app)
-    app.register_error_handler(RecordIdExist, handle_record_exist)
+    register_error_handlers(app)
+
     return app
 
 def register_extensions(app):
@@ -33,3 +34,8 @@ def register_blueprints(app):
     """Register Flask blueprints."""
 
     app.register_blueprint(animes_bp)
+
+def register_error_handlers(app):
+    """Register Flask error handler on app level."""
+
+    app.register_error_handler(RecordIdExist, handle_record_exist)
