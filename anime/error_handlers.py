@@ -9,5 +9,4 @@ class RecordIdExist(Exception):
 
 
 def handle_record_exist(e):
-    print(e.message)
     return jsonify({"message": e.message, "error": e.error}), e.code
