@@ -96,7 +96,7 @@ def anime_delete(id: int):
 def create_anime():
     """Route for inserting a new anime resource to DB
 
-    :return: returns successful anime input
+    :return: Successful anime input
     :rtype: AnimeSchema
     """
 
