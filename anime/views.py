@@ -1,4 +1,5 @@
 from flask import Blueprint, abort, jsonify, request
+from marshmallow.exceptions import ValidationError
 from sqlalchemy import desc
 
 from anime.app import db
@@ -95,3 +96,20 @@ def anime_delete(id: int):
     db.session.commit()
 
     return '', 204
+
+@animes_bp.route('/api/v1/animes/', methods=['POST'])
+def create_anime():
+    """Route for inserting a new anime resource to DB
+
+    :return: Successful anime input
+    :rtype: AnimeSchema
+    """
+
+    anime_schema = AnimeSchema()
+
+    schema_dict = anime_schema.loads(request.data)
+
+    db.session.add(Anime(**schema_dict))
+    db.session.commit()
+
+    return anime_schema.dump(schema_dict), 201
