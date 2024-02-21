@@ -1,5 +1,4 @@
 from flask import Blueprint, abort, jsonify, request
-from marshmallow.exceptions import ValidationError
 from sqlalchemy import desc
 
 from anime.app import db
@@ -61,10 +60,7 @@ def update_anime(id: int):
     else:
         anime_schema = AnimeSchema(partial=True)
 
-    try:
-        entry_dict = anime_schema.loads(request.data)
-    except ValidationError as e:
-        return {"error": e.messages}, 400
+    entry_dict = anime_schema.loads(request.data)
 
     # Function to convert ORM obj to dictionary
     row2dict = lambda r: {
