@@ -62,14 +62,11 @@ def update_anime(id: int):
 
     entry_dict = anime_schema.loads(request.data)
 
-    # Function to convert ORM obj to dictionary
-    row2dict = lambda r: {
-        c.name: str(getattr(r, c.name)) for c in r.__table__.columns}
-
     db_anime = db.session.query(Anime).filter(Anime.anime_id == id)
-    if db_anime.first() is not None:
-        db_anime_dict = row2dict(db_anime.first())
-    else:
+
+    try:
+        db_anime_dict = db_anime.first().as_dict()
+    except AttributeError:
         abort(404)  # if anime id not exist
 
     for value in entry_dict:
