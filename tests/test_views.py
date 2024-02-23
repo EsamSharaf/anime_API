@@ -75,8 +75,13 @@ def test_update_anime_patch(client, create_default_anime):
 
     assert response.status_code == 200
     assert anime_schema.loads(response.data) == {
+        "anime_id": 11,
+        "name": 'anime_default',
+        "genre": 'Action',
+        "type": 'TV',
         "episodes": 30,
         "rating": 7.5,
+        "members": 123456
     }
 
 def test_update_anime_put(client, create_default_anime):
