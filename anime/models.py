@@ -45,6 +45,9 @@ class Anime(Base):
         self.rating = rating
         self.members = members
 
+    def as_dict(self):
+        return {column.name: getattr(self, column.name) for column in
+                self.__table__.columns}
 
 engine = create_engine("sqlite:///./instance/animeDB")
 
