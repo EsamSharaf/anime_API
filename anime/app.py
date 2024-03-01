@@ -39,5 +39,5 @@ def register_error_handlers(app):
     """Register Flask error handler on app level."""
 
     @app.errorhandler(IntegrityError)
-    def idexist_error(e):
+    def id_exist_error(e):
         return jsonify({"message": str(e)}), 400
