@@ -106,10 +106,7 @@ def create_anime():
     except ValidationError as e:
         return {"error": e.messages}, 400
 
-    try:
-        db.session.add(Anime(**schema_dict))
-        db.session.commit()
-    except sqlalchemy.exc.IntegrityError:
-        raise RecordIdExist()
+    db.session.add(Anime(**schema_dict))
+    db.session.commit()
 
     return anime_schema.dump(schema_dict), 201

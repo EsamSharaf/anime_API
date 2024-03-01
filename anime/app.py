@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask, jsonify
 
 from anime.extensions import db
 from anime.settings import DevConfig
 from anime.views import animes_bp
 
 from .error_handlers import RecordIdExist, handle_record_exist
-
+from sqlalchemy.exc import IntegrityError
 
 def create_app(config_object=DevConfig):
     """Application factory
@@ -38,4 +38,6 @@ def register_blueprints(app):
 def register_error_handlers(app):
     """Register Flask error handler on app level."""
 
-    app.register_error_handler(RecordIdExist, handle_record_exist)
+    @app.errorhandler(IntegrityError)
+    def idexist_error(e):
+        return jsonify({"message": str(e)}), 400
