@@ -46,6 +46,15 @@ class Anime(Base):
         self.members = members
 
 
+class User(Base):
+
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String(64), unique=True, index=True)
+    password = Column(String(128))
+
+
 engine = create_engine("sqlite:///./instance/animeDB")
 
 Base.metadata.create_all(bind=engine)
