@@ -1,8 +1,10 @@
 from flask import Blueprint, abort, jsonify, request
+from flask_jwt_extended import create_access_token, jwt_required
 from sqlalchemy import desc
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from anime.app import db
-from anime.models import Anime
+from anime.models import Anime, User
 from anime.schemas import AnimeSchema
 
 animes_tab = Anime.__table__
@@ -46,6 +48,7 @@ def get_anime_by_name(name: str):
         abort(404)
 
 @animes_bp.route('/api/v1/animes/<int:id>', methods=['Put', 'Patch'])
+@jwt_required()
 def anime(id: int):
     """Route updates attribute(s) of single anime in DB
 
@@ -72,6 +75,7 @@ def anime(id: int):
         return jsonify({"error": "{0}".format(e)})
 
 @animes_bp.route('/api/v1/animes/<int:id>', methods=['DELETE'])
+@jwt_required()
 def anime_delete(id: int):
     """Route deletes a single anime in DB if exits or aborts
     if it does not exits
@@ -87,3 +91,34 @@ def anime_delete(id: int):
     db.session.commit()
 
     return '', 204
+
+@animes_bp.route('/api/v1/register', methods=['POST'])
+def register():
+    username = request.json.get("username")
+    password = request.json.get("password")
+
+    user = User.query.filter_by(username=username).one_or_none()
+
+    if user is not None:
+        return jsonify(message='username exists')
+
+    hashed_password = generate_password_hash(password)
+
+    user = User(username=username, password=hashed_password)
+    db.session.add(user)
+    db.session.commit()
+    return jsonify(message='user created')
+
+@animes_bp.route('/api/v1/login', methods=['POST'])
+def login():
+    username = request.json.get("username")
+    password = request.json.get("password")
+
+    user = User.query.filter_by(username=username).one_or_none()
+
+    if user is not None and check_password_hash(user.password, password):
+        access_token = create_access_token(identity=username)
+        response = jsonify(message='Authorized User', access_token=access_token)
+        return response, 200
+    else:
+        return jsonify(message='login failed'), 401
