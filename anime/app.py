@@ -1,11 +1,11 @@
 from flask import Flask, jsonify
+from marshmallow.exceptions import ValidationError
+from sqlalchemy.exc import IntegrityError
 
 from anime.extensions import db
 from anime.settings import DevConfig
 from anime.views import animes_bp
 
-from .error_handlers import RecordIdExist, handle_record_exist
-from sqlalchemy.exc import IntegrityError
 
 def create_app(config_object=DevConfig):
     """Application factory
@@ -40,4 +40,8 @@ def register_error_handlers(app):
 
     @app.errorhandler(IntegrityError)
     def id_exist_error(e):
+        return jsonify({"message": str(e)}), 400
+
+    @app.errorhandler(ValidationError)
+    def validiation_error(e):
         return jsonify({"message": str(e)}), 400
