@@ -1,5 +1,6 @@
 from anime.app import db
 from anime.schemas import AnimeSchema
+
 from .factories import AnimeFactory
 
 
@@ -95,3 +96,40 @@ def test_anime_delete_not_found(client, create_default_anime):
     response = client.delete('/api/v1/animes/10')
 
     assert response.status_code == 404
+
+def test_create_anime(client, create_default_anime):
+    response = client.post('/api/v1/animes/', json={
+        "anime_id": 1535,
+        "name": 'Death Note',
+        "genre": 'Mystery, Police, Psychological, Supernatural, Thriller',
+        "type": 'TV',
+        "episodes": 37,
+        "rating": 8.71,
+        "members": 1013917,
+    })
+
+    anime_schema = AnimeSchema()
+
+    assert response.status_code == 201
+    assert anime_schema.loads(response.data) == {
+        "anime_id": 1535,
+        "name": 'Death Note',
+        "genre": 'Mystery, Police, Psychological, Supernatural, Thriller',
+        "type": 'TV',
+        "episodes": 37,
+        "rating": 8.71,
+        "members": 1013917,
+    }
+
+def test_create_anime_not_valid_field(client, create_default_anime):
+    response = client.post('/api/v1/animes/', json={
+        "anime_id": 1535,
+        "name": 'Death Note',
+        "genre": 'Mystery, Police, Psychological, Supernatural, Thriller',
+        "type": 'TV',
+        "episodes": "string_eposides_input",
+        "rating": 8.71,
+        "members": 1013917,
+    })
+
+    assert response.status_code == 400
