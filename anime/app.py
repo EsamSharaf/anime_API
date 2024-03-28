@@ -1,6 +1,5 @@
 from flask import Flask, jsonify
 from marshmallow.exceptions import ValidationError
-from sqlalchemy.exc import IntegrityError
 
 from anime.extensions import db
 from anime.settings import DevConfig
@@ -37,10 +36,6 @@ def register_blueprints(app):
 
 def register_error_handlers(app):
     """Register Flask error handler on app level."""
-
-    @app.errorhandler(IntegrityError)
-    def id_exist_error(e):
-        return jsonify({"message": str(e)}), 400
 
     @app.errorhandler(ValidationError)
     def validiation_error(e):

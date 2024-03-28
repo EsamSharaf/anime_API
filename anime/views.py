@@ -46,31 +46,39 @@ def get_anime_by_name(name: str):
     else:
         abort(404)
 
-@animes_bp.route('/api/v1/animes/<int:id>', methods=['Put', 'Patch'])
-def anime(id: int):
+@animes_bp.route('/api/v1/animes/<int:id>', methods=['PUT', 'PATCH'])
+def update_anime(id: int):
     """Route updates attribute(s) of single anime in DB
 
-    :param name: Anime name to update its attribute(s)
-    :type name: str
+    :param id: Anime ID
+    :type id: str
     :return: Updated anime record
     :rtype: AnimeSchema
     """
 
-    try:
-        request_data = request.get_json()
-        db.session.query(Anime).filter(Anime.anime_id == id).update(
-            {**request_data}
-        )
-        db.session.commit()
-
-        anime = db.session.execute(
-                    db.select(animes_tab).filter_by(anime_id=id)).first()
+    if request.method == 'PUT':
         anime_schema = AnimeSchema()
+    else:
+        anime_schema = AnimeSchema(partial=True)
 
-        return anime_schema.dump(anime)
+    entry_dict = anime_schema.loads(request.data)
 
-    except Exception as e:
-        return jsonify({"error": "{0}".format(e)})
+    db_anime = db.session.query(Anime).filter(Anime.anime_id == id)
+
+    try:
+        db_anime_dict = db_anime.first().as_dict()
+    except AttributeError:
+        abort(404)  # if anime id not exist
+
+    for value in entry_dict:
+        if entry_dict[value] is not None:
+            db_anime_dict[value] = entry_dict[value]
+
+    db_anime.update(db_anime_dict)
+    db.session.commit()
+
+    return anime_schema.dump(db_anime_dict)
+
 
 @animes_bp.route('/api/v1/animes/<int:id>', methods=['DELETE'])
 def anime_delete(id: int):
