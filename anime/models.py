@@ -49,6 +49,16 @@ class Anime(Base):
         return {column.name: getattr(self, column.name) for column in
                 self.__table__.columns}
 
+
+class User(Base):
+
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String(64), unique=True, index=True)
+    password = Column(String(128))
+
+
 engine = create_engine("sqlite:///./instance/animeDB")
 
 Base.metadata.create_all(bind=engine)
