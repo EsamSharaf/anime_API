@@ -1,8 +1,10 @@
 import pytest
-from anime.app import create_app
-from anime.app import db
+from flask_jwt_extended import create_access_token
+
+from anime.app import create_app, db
 from anime.settings import TestConfig
-from .factories import AnimeFactory
+
+from .factories import AnimeFactory, UserFactory
 
 
 @pytest.fixture()
@@ -34,3 +36,19 @@ def runner(app):
 @pytest.fixture()
 def create_default_anime(app):
     return AnimeFactory()
+
+
+@pytest.fixture()
+def create_default_user(app):
+    return UserFactory()
+
+
+@pytest.fixture()
+def test_header(app):
+    token = create_access_token(identity="default_user")
+
+    header = {
+        'Authorization': 'Bearer {}'.format(token)
+    }
+
+    return header
