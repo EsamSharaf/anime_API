@@ -22,6 +22,7 @@ def create_app(config_object=DevConfig):
 
     return app
 
+
 def register_extensions(app):
     """Register Flask extensions."""
 
@@ -30,10 +31,12 @@ def register_extensions(app):
         db.reflect()
     jwt.init_app(app)
 
+
 def register_blueprints(app):
     """Register Flask blueprints."""
 
     app.register_blueprint(animes_bp)
+
 
 def register_error_handlers(app):
     """Register Flask error handler on app level."""

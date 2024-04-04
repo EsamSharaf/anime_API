@@ -11,6 +11,7 @@ animes_tab = Anime.__table__
 
 animes_bp = Blueprint('animes', __name__,)
 
+
 @animes_bp.route('/api/v1/animes/', methods=['GET'])
 def animes():
     """Route returns with animes table's rows sorted by
@@ -26,6 +27,7 @@ def animes():
     animes_schema = AnimeSchema(many=True)
 
     return animes_schema.dump(animes_rows)
+
 
 @animes_bp.route('/api/v1/anime/<string:name>', methods=['GET'])
 def get_anime_by_name(name: str):
@@ -143,6 +145,7 @@ def register():
     user = User(username=username, password=hashed_password)
     db.session.add(user)
     db.session.commit()
+
     return jsonify(message='user created'), 201
 
 
@@ -163,6 +166,7 @@ def login():
     if user is not None and check_password_hash(user.password, password):
         access_token = create_access_token(identity=username)
         response = jsonify(message='Authorized User', access_token=access_token)
+
         return response, 200
     else:
         return jsonify(message='login failed'), 401
