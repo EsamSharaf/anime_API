@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from anime.app import db
 from anime.models import Anime, User
-from anime.schemas import AnimeSchema
+from anime.schemas import AnimeSchema, UserSchema
 
 animes_tab = Anime.__table__
 
@@ -123,8 +123,10 @@ def create_anime():
 
 @animes_bp.route('/api/v1/register', methods=['POST'])
 def register():
-    username = request.json.get("username")
-    password = request.json.get("password")
+
+    user_schema = UserSchema().loads(request.data)
+    username = user_schema["username"]
+    password = user_schema["password"]
 
     user = User.query.filter_by(username=username).one_or_none()
 
@@ -141,8 +143,9 @@ def register():
 
 @animes_bp.route('/api/v1/login', methods=['POST'])
 def login():
-    username = request.json.get("username")
-    password = request.json.get("password")
+    user_schema = UserSchema().loads(request.data)
+    username = user_schema["username"]
+    password = user_schema["password"]
 
     user = User.query.filter_by(username=username).one_or_none()
 

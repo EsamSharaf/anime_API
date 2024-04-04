@@ -11,3 +11,10 @@ AnimeSchema = Schema.from_dict(
         "members": fields.Int(required=True)
     }
 )
+
+UserSchema = Schema.from_dict(
+    {
+        "username": fields.Str(required=True),
+        "password": fields.Str(required=True)
+    }
+)
