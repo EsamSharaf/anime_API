@@ -123,6 +123,11 @@ def create_anime():
 
 @animes_bp.route('/api/v1/register', methods=['POST'])
 def register():
+    """Route for creating a new user
+
+    :return: 'User created' or 'username exists' message
+    :rtype: JSON string
+    """
 
     user_schema = UserSchema().loads(request.data)
     username = user_schema["username"]
@@ -143,6 +148,12 @@ def register():
 
 @animes_bp.route('/api/v1/login', methods=['POST'])
 def login():
+    """Route for logging-in
+
+    :return: 'Authorized User' or 'login failed' message
+    :rtype: JSON string
+    """
+
     user_schema = UserSchema().loads(request.data)
     username = user_schema["username"]
     password = user_schema["password"]
