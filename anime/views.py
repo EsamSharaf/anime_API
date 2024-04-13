@@ -14,7 +14,7 @@ animes_bp = Blueprint('animes', __name__,)
 
 @animes_bp.route('/api/v1/animes/', methods=['GET'])
 def animes():
-    """Route returns with animes table's rows sorted by
+    """A view returns with animes table's rows sorted by
     rating attribute in descending order
 
     :return: a list of table rows (objects)
@@ -31,7 +31,7 @@ def animes():
 
 @animes_bp.route('/api/v1/anime/<string:name>', methods=['GET'])
 def get_anime_by_name(name: str):
-    """Route returns with a single row from animes table which matches
+    """A view returns with a single row from animes table which matches
     its name the name argument or "anime not found" string message
 
     :param name: anime name
@@ -53,7 +53,7 @@ def get_anime_by_name(name: str):
 @animes_bp.route('/api/v1/animes/<int:id>', methods=['PUT', 'PATCH'])
 @jwt_required()
 def update_anime(id: int):
-    """Route updates attribute(s) of single anime in DB
+    """A view updates attribute(s) of single anime in DB
 
     :param id: Anime ID
     :type id: str
@@ -88,7 +88,7 @@ def update_anime(id: int):
 @animes_bp.route('/api/v1/animes/<int:id>', methods=['DELETE'])
 @jwt_required()
 def anime_delete(id: int):
-    """Route deletes a single anime in DB if exits or aborts
+    """A view deletes a single anime in DB if exits or aborts
     if it does not exits
 
     :param id: Anime id
@@ -107,7 +107,7 @@ def anime_delete(id: int):
 @animes_bp.route('/api/v1/animes/', methods=['POST'])
 @jwt_required()
 def create_anime():
-    """Route for inserting a new anime resource to DB
+    """A view for inserting a new anime resource to DB
 
     :return: Successful anime input
     :rtype: AnimeSchema
@@ -125,7 +125,7 @@ def create_anime():
 
 @animes_bp.route('/api/v1/register', methods=['POST'])
 def register():
-    """Route for creating a new user
+    """A view for creating a new user
 
     :return: 'User created' or 'username exists' message
     :rtype: JSON string
@@ -151,7 +151,7 @@ def register():
 
 @animes_bp.route('/api/v1/login', methods=['POST'])
 def login():
-    """Route for logging-in
+    """A view for logging-in
 
     :return: 'Authorized User' or 'login failed' message
     :rtype: JSON string
