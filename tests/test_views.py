@@ -65,9 +65,9 @@ def test_get_anime_by_name_route_anime_not_found(client, create_default_anime):
     assert response.status_code == 404
 
 
-def test_update_anime_patch(client, create_default_anime):
+def test_update_anime_patch(client, create_default_anime, test_header):
 
-    response = client.patch('/api/v1/animes/11', json={
+    response = client.patch('/api/v1/animes/11', headers=test_header, json={
         "episodes": 30,
         "rating": 7.5,
     })
@@ -85,9 +85,10 @@ def test_update_anime_patch(client, create_default_anime):
         "members": 123456
     }
 
-def test_update_anime_put(client, create_default_anime):
 
-    response = client.put('/api/v1/animes/11', json={
+def test_update_anime_put(client, create_default_anime, test_header):
+
+    response = client.put('/api/v1/animes/11', headers=test_header, json={
         "anime_id": 11,
         "name": 'anime_default',
         "genre": 'Action',
@@ -110,19 +111,23 @@ def test_update_anime_put(client, create_default_anime):
         "members": 1
     }
 
-def test_anime_delete(client, create_default_anime):
-    response = client.delete('/api/v1/animes/11')
+
+def test_anime_delete(client, create_default_anime, create_default_user,
+                      test_header):
+
+    response = client.delete('/api/v1/animes/11', headers=test_header)
 
     assert response.status_code == 204
 
 
-def test_anime_delete_not_found(client, create_default_anime):
-    response = client.delete('/api/v1/animes/10')
+def test_anime_delete_not_found(client, create_default_anime, test_header):
+    response = client.delete('/api/v1/animes/10', headers=test_header)
 
     assert response.status_code == 404
 
-def test_create_anime(client, create_default_anime):
-    response = client.post('/api/v1/animes/', json={
+
+def test_create_anime(client, create_default_anime, test_header):
+    response = client.post('/api/v1/animes/', headers=test_header, json={
         "anime_id": 1535,
         "name": 'Death Note',
         "genre": 'Mystery, Police, Psychological, Supernatural, Thriller',
@@ -145,8 +150,10 @@ def test_create_anime(client, create_default_anime):
         "members": 1013917,
     }
 
-def test_create_anime_not_valid_field(client, create_default_anime):
-    response = client.post('/api/v1/animes/', json={
+
+def test_create_anime_not_valid_field(client, create_default_anime,
+                                      test_header):
+    response = client.post('/api/v1/animes/', headers=test_header, json={
         "anime_id": 1535,
         "name": 'Death Note',
         "genre": 'Mystery, Police, Psychological, Supernatural, Thriller',
@@ -157,3 +164,43 @@ def test_create_anime_not_valid_field(client, create_default_anime):
     })
 
     assert response.status_code == 400
+
+
+def test_register_user(client, create_default_user):
+
+    response = client.post('/api/v1/register', json={
+        "username": 'new_user',
+        "password": 'new_password',
+    })
+
+    assert response.status_code == 201
+
+
+def test_register_exists_user(client, create_default_user):
+
+    response = client.post('/api/v1/register', json={
+        "username": 'default_user',
+        "password": 'default_password',
+    })
+
+    assert response.status_code == 400
+
+
+def test_login_success(client, create_default_user):
+
+    response = client.post('/api/v1/login', json={
+        "username": 'default_user',
+        "password": 'default_password',
+    })
+
+    assert response.status_code == 200
+
+
+def test_login_fail(client, create_default_user):
+
+    response = client.post('/api/v1/login', json={
+        "username": 'fake_user',
+        "password": 'fake_password',
+    })
+
+    assert response.status_code == 401

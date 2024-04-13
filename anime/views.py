@@ -1,18 +1,20 @@
 from flask import Blueprint, abort, jsonify, request
-from marshmallow.exceptions import ValidationError
+from flask_jwt_extended import create_access_token, jwt_required
 from sqlalchemy import desc
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from anime.app import db
-from anime.models import Anime
-from anime.schemas import AnimeSchema
+from anime.models import Anime, User
+from anime.schemas import AnimeSchema, UserSchema
 
 animes_tab = Anime.__table__
 
 animes_bp = Blueprint('animes', __name__,)
 
+
 @animes_bp.route('/api/v1/animes/', methods=['GET'])
 def animes():
-    """Route returns with animes table's rows sorted by
+    """A view returns with animes table's rows sorted by
     rating attribute in descending order
 
     :return: a list of table rows (objects)
@@ -26,9 +28,10 @@ def animes():
 
     return animes_schema.dump(animes_rows)
 
+
 @animes_bp.route('/api/v1/anime/<string:name>', methods=['GET'])
 def get_anime_by_name(name: str):
-    """Route returns with a single row from animes table which matches
+    """A view returns with a single row from animes table which matches
     its name the name argument or "anime not found" string message
 
     :param name: anime name
@@ -46,9 +49,11 @@ def get_anime_by_name(name: str):
     else:
         abort(404)
 
+
 @animes_bp.route('/api/v1/animes/<int:id>', methods=['PUT', 'PATCH'])
+@jwt_required()
 def update_anime(id: int):
-    """Route updates attribute(s) of single anime in DB
+    """A view updates attribute(s) of single anime in DB
 
     :param id: Anime ID
     :type id: str
@@ -81,8 +86,9 @@ def update_anime(id: int):
 
 
 @animes_bp.route('/api/v1/animes/<int:id>', methods=['DELETE'])
+@jwt_required()
 def anime_delete(id: int):
-    """Route deletes a single anime in DB if exits or aborts
+    """A view deletes a single anime in DB if exits or aborts
     if it does not exits
 
     :param id: Anime id
@@ -97,9 +103,11 @@ def anime_delete(id: int):
 
     return '', 204
 
+
 @animes_bp.route('/api/v1/animes/', methods=['POST'])
+@jwt_required()
 def create_anime():
-    """Route for inserting a new anime resource to DB
+    """A view for inserting a new anime resource to DB
 
     :return: Successful anime input
     :rtype: AnimeSchema
@@ -113,3 +121,52 @@ def create_anime():
     db.session.commit()
 
     return anime_schema.dump(schema_dict), 201
+
+
+@animes_bp.route('/api/v1/register', methods=['POST'])
+def register():
+    """A view for creating a new user
+
+    :return: 'User created' or 'username exists' message
+    :rtype: JSON string
+    """
+
+    user_schema = UserSchema().loads(request.data)
+    username = user_schema["username"]
+    password = user_schema["password"]
+
+    user = User.query.filter_by(username=username).one_or_none()
+
+    if user is not None:
+        return jsonify(message='username exists'), 400
+
+    hashed_password = generate_password_hash(password)
+
+    user = User(username=username, password=hashed_password)
+    db.session.add(user)
+    db.session.commit()
+
+    return jsonify(message='user created'), 201
+
+
+@animes_bp.route('/api/v1/login', methods=['POST'])
+def login():
+    """A view for logging-in
+
+    :return: 'Authorized User' or 'login failed' message
+    :rtype: JSON string
+    """
+
+    user_schema = UserSchema().loads(request.data)
+    username = user_schema["username"]
+    password = user_schema["password"]
+
+    user = User.query.filter_by(username=username).one_or_none()
+
+    if user is not None and check_password_hash(user.password, password):
+        access_token = create_access_token(identity=username)
+        response = jsonify(message='Authorized User', access_token=access_token)
+
+        return response, 200
+    else:
+        return jsonify(message='login failed'), 401
