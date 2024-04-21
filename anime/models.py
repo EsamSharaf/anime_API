@@ -1,6 +1,9 @@
 from sqlalchemy import Column, Float, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base
 
+from .settings import DevConfig, ProdConfig
+from flask.helpers import get_debug_flag
+
 Base = declarative_base()
 
 
@@ -59,6 +62,7 @@ class User(Base):
     password = Column(String(128))
 
 
-engine = create_engine("sqlite:///./instance/animeDB")
+db_uri = DevConfig.SQLALCHEMY_DATABASE_URI if get_debug_flag() else ProdConfig.SQLALCHEMY_DATABASE_URI
+engine = create_engine(db_uri)
 
 Base.metadata.create_all(bind=engine)
