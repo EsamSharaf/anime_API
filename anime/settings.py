@@ -1,10 +1,11 @@
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 
 class Config(object):
     """Base configuration."""
-    load_dotenv()
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 
@@ -23,3 +24,11 @@ class TestConfig(Config):
     TESTING = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///animeDB_test.db"
+
+
+class ProdConfig(Config):
+    """Production configuration."""
+
+    ENV = 'prod'
+    DEBUG = False
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
