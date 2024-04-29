@@ -2,11 +2,11 @@ from flask import Flask, jsonify
 from marshmallow import ValidationError
 
 from anime.extensions import db, jwt
-from anime.settings import DevConfig
+from anime.settings import ProdConfig
 from anime.views import animes_bp
 
 
-def create_app(config_object=DevConfig):
+def create_app(config_object=ProdConfig):
     """Application factory
 
     :param config_object: The configuration object to use.
