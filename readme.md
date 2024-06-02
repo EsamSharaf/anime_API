@@ -22,6 +22,16 @@ venv source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## Load Data into Database
+
+```
+export FLASK_DEBUG=1
+```
+
+```
+python import_data_into_db.py
+```
+
 ## Development
 
 ### Export environment variables
