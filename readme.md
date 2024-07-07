@@ -41,7 +41,7 @@ export FLASK_DEBUG=1
 ```
 
 ```
-export FLASK_APP=/home/esharaf/projects/anime_API/autoapp.p
+export FLASK_APP=/home/esharaf/projects/anime_API/autoapp.py
 ```
 
 
